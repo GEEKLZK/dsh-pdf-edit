@@ -1,9 +1,9 @@
 {
   "$schema": "urn:dsh-std:community-draft:dsh-plugin:0.15",
   "manifestVersion": "0.15",
-  "id": "io.github.whatsmore-nf.dsh-pdf-edit",
+  "id": "io.github.geeklzk.dsh-pdf-edit",
   "name": "dsh-pdf-edit",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "facets": {
     "host": {
       "entry": "dist/std/host.js",
@@ -20,7 +20,7 @@
       {
         "apiVersion": "tools.dsh/v1alpha1",
         "kind": "Tool",
-        "id": "io.github.whatsmore-nf.dsh-pdf-edit.preview",
+        "id": "io.github.geeklzk.dsh-pdf-edit.preview",
         "name": "pdf-edit-preview",
         "spec": {
           "title": "PDF 可编辑单元预览",
@@ -30,7 +30,7 @@
       {
         "apiVersion": "tools.dsh/v1alpha1",
         "kind": "Tool",
-        "id": "io.github.whatsmore-nf.dsh-pdf-edit.page",
+        "id": "io.github.geeklzk.dsh-pdf-edit.page",
         "name": "pdf-edit-page",
         "spec": {
           "title": "PDF 单页 AI 精修",
@@ -40,7 +40,7 @@
       {
         "apiVersion": "tools.dsh/v1alpha1",
         "kind": "Tool",
-        "id": "io.github.whatsmore-nf.dsh-pdf-edit.document",
+        "id": "io.github.geeklzk.dsh-pdf-edit.document",
         "name": "pdf-edit-document",
         "spec": {
           "title": "PDF 全文 AI 批量精修",
@@ -50,7 +50,7 @@
       {
         "apiVersion": "tools.dsh/v1alpha1",
         "kind": "Tool",
-        "id": "io.github.whatsmore-nf.dsh-pdf-edit.relayout",
+        "id": "io.github.geeklzk.dsh-pdf-edit.relayout",
         "name": "pdf-edit-relayout",
         "spec": {
           "title": "PDF 版式重排",
@@ -60,7 +60,7 @@
       {
         "apiVersion": "tools.dsh/v1alpha1",
         "kind": "Tool",
-        "id": "io.github.whatsmore-nf.dsh-pdf-edit.insert",
+        "id": "io.github.geeklzk.dsh-pdf-edit.insert",
         "name": "pdf-edit-insert",
         "spec": {
           "title": "PDF 插入内容页",
@@ -72,6 +72,6 @@
   "subscriptions": [],
   "license": "MIT",
   "source": {
-    "repository": "https://github.com/Whatsmore-nf/dsh-pdf-edit.git"
+    "repository": "https://github.com/GEEKLZK/dsh-pdf-edit.git"
   }
 }

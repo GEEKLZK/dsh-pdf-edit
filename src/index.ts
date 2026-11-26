@@ -474,7 +474,7 @@ export async function apply(
   } catch (error) {
     throw new Error(
       "dsh-pdf-edit: cordis 直连模式需要 @deepseek-ai/dsh-tools。" +
-        "请通过 `dsh plugin --profile <profile> add dsh-pdf-edit` 安装（勿手动 pnpm install），" +
+        "请通过 `dsh plugin --profile <profile> add @geeklzk/dsh-pdf-edit` 安装（勿手动 pnpm install），" +
         "或在支持 dsh-std Community v0.15 的宿主中经 dsh-plugin.json 装载本插件。",
       { cause: error },
     );

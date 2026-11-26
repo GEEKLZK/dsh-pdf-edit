@@ -27,7 +27,7 @@ const RECOVERY_STEPS = [
   "  2. 或移除近期新装的插件后重试：",
   "     dsh plugin --profile <profile> remove <嫌疑插件>",
   "  3. 或重置 profile 依赖树（会重装全部插件依赖）：",
-  "     rm -rf ~/.dsh/profiles/<profile>/node_modules && dsh plugin --profile <profile> add dsh-pdf-edit",
+  "     rm -rf ~/.dsh/profiles/<profile>/node_modules && dsh plugin --profile <profile> add @geeklzk/dsh-pdf-edit",
   "",
   "注意：崩溃过的旧会话日志已损坏，无法恢复。",
 ].join("\n");

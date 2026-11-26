@@ -1,6 +1,6 @@
 {
-  "name": "dsh-pdf-edit",
-  "version": "0.4.6",
+  "name": "@geeklzk/dsh-pdf-edit",
+  "version": "0.4.7",
   "description": "Style-locked PDF editor plugin for DeepSeek Harness — AI edits text, native renderer preserves layout (ships dsh-std Community v0.15 manifest + legacy dsh entry)",
   "type": "module",
   "main": "dist/index.js",
@@ -24,14 +24,20 @@
     "cordis"
   ],
   "author": "whatsmore-nf",
+  "contributors": [
+    "GEEKLZK"
+  ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Whatsmore-nf/dsh-pdf-edit.git"
+    "url": "git+https://github.com/GEEKLZK/dsh-pdf-edit.git"
   },
-  "homepage": "https://github.com/Whatsmore-nf/dsh-pdf-edit#readme",
+  "homepage": "https://github.com/GEEKLZK/dsh-pdf-edit#readme",
   "bugs": {
-    "url": "https://github.com/Whatsmore-nf/dsh-pdf-edit/issues"
+    "url": "https://github.com/GEEKLZK/dsh-pdf-edit/issues"
   },
   "dsh": {
     "bundle": {

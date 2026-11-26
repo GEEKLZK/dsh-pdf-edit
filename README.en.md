@@ -1,11 +1,9 @@
-# dsh-pdf-edit
-> ## 🚨 Temporary Maintenance Pause
->
-> This project will be placed on a maintenance pause **for an extended period**. No updates will be made during this time. The plugin may continue to function for a while, but please use it at your own risk. A resumption date has not been set. We appreciate your understanding.
+# @geeklzk/dsh-pdf-edit
+> 🍴 **This repo is GEEKLZK's fork**: upstream [Whatsmore-nf/dsh-pdf-edit](https://github.com/Whatsmore-nf/dsh-pdf-edit) is on a maintenance pause; this fork keeps up with dsh runtime upgrades and is published on npm as `@geeklzk/dsh-pdf-edit`.
 > English | [中文](./README.md)
 
-[![npm version](https://img.shields.io/npm/v/dsh-pdf-edit?color=blue&label=npm)](https://www.npmjs.com/package/dsh-pdf-edit)
-[![dsh-std Community v0.15](https://img.shields.io/badge/dsh--std-Community%20v0.15-6a4cff)](https://github.com/Whatsmore-nf/dsh-pdf-edit/blob/main/dsh-plugin.json)
+[![npm version](https://img.shields.io/npm/v/@geeklzk/dsh-pdf-edit?color=blue&label=npm)](https://www.npmjs.com/package/@geeklzk/dsh-pdf-edit)
+[![dsh-std Community v0.15](https://img.shields.io/badge/dsh--std-Community%20v0.15-6a4cff)](https://github.com/GEEKLZK/dsh-pdf-edit/blob/main/dsh-plugin.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 > 🧩 **dsh-std ecosystem ready (Community v0.15)**: ships a `dsh-plugin.json` static manifest and a standard **FacetModule entry** (`dist/std/host.js`), loadable by dsh-std hosts such as `@dsh-std/adapter-dsh` — **no `@deepseek-ai/*` packages required**; the legacy cordis entry is kept as-is. Both entries share the exact same tool implementations, so editing behavior is identical.
@@ -35,14 +33,14 @@ An AI-powered PDF editing plugin. Tell it what to change in natural language, an
 
 ```bash
 # Via Harness plugin CLI (same as official plugins)
-dsh plugin --profile web add dsh-pdf-edit@latest
+dsh plugin --profile web add @geeklzk/dsh-pdf-edit@latest
 
 # Or via npm
-npm install dsh-pdf-edit
+npm install @geeklzk/dsh-pdf-edit
 
 # Inside a dsh-std host (adapter scans profile dependencies for dsh-plugin.json)
 dsh plugin --profile web add @dsh-std/adapter-dsh
-dsh plugin --profile web add dsh-pdf-edit
+dsh plugin --profile web add @geeklzk/dsh-pdf-edit
 ```
 
 ### dsh-std Ecosystem Adaptation (v0.4.0+)
@@ -90,6 +88,16 @@ The plugin also probes for this at load time: if detected, it throws an error
 containing these exact recovery commands instead of crashing silently.
 
 ## Changelog
+
+### v0.4.7
+
+Package renamed into GEEKLZK's npm scope; behavior is identical to v0.4.6:
+
+- `name` is now `@geeklzk/dsh-pdf-edit`, with `publishConfig.access: "public"` (scoped packages default to restricted, so a public release needs it)
+- The cordis patch row `name` in `cordis.patch.yml` follows the package name — it must match `package.json` exactly or the profile cannot resolve the module
+- `dsh-plugin.json` component id becomes `io.github.geeklzk.dsh-pdf-edit` (including the 5 `x-tools` ids); `source.repository` points at this fork
+- `repository` / `homepage` / `bugs` point at `GEEKLZK/dsh-pdf-edit`; `author` keeps the original `whatsmore-nf` and `contributors` adds `GEEKLZK`
+- READMEs (zh/en): top notice switched to a fork notice, npm badge and install commands use the new name
 
 ### v0.4.6
 

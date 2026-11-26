@@ -1,16 +1,14 @@
-# dsh-pdf-edit
-> ## 🚨 暂停维护公告
->
-> 本项目将暂停维护一段**较长的时间**。在此期间，不会进行更新，插件可能在一段时间内仍可正常使用，但请自行承担使用风险。恢复维护的时间待定，敬请谅解。
+# @geeklzk/dsh-pdf-edit
+> 🍴 **本仓库是 GEEKLZK 维护的 fork**：上游 [Whatsmore-nf/dsh-pdf-edit](https://github.com/Whatsmore-nf/dsh-pdf-edit) 已暂停维护，本 fork 继续跟进 dsh 运行时升级，并以 npm 包 `@geeklzk/dsh-pdf-edit` 发布。
 > [English](./README.en.md) | 中文
 
-[![npm version](https://img.shields.io/npm/v/dsh-pdf-edit?color=blue&label=npm)](https://www.npmjs.com/package/dsh-pdf-edit)
-[![dsh-std Community v0.15](https://img.shields.io/badge/dsh--std-Community%20v0.15-6a4cff)](https://github.com/Whatsmore-nf/dsh-pdf-edit/blob/main/dsh-plugin.json)
+[![npm version](https://img.shields.io/npm/v/@geeklzk/dsh-pdf-edit?color=blue&label=npm)](https://www.npmjs.com/package/@geeklzk/dsh-pdf-edit)
+[![dsh-std Community v0.15](https://img.shields.io/badge/dsh--std-Community%20v0.15-6a4cff)](https://github.com/GEEKLZK/dsh-pdf-edit/blob/main/dsh-plugin.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 > 🧩 **已接入 dsh-std 生态（Community v0.15）**：本插件随包提供 `dsh-plugin.json` 静态清单与标准 **FacetModule 入口**（`dist/std/host.js`），可被 `@dsh-std/adapter-dsh` 等 dsh-std 标准宿主直接装载，**不依赖任何 `@deepseek-ai/*` 官方包**；同时保留 cordis 直连入口。两条入口共用同一套工具实现，编辑行为完全一致。
 
-**版本：`v0.4.6`**（当前） | 需要 `Node >= 22`；兼容 `dsh >= 0.1.1-rc.2 < 0.3.0`（含 `0.2.x` 预发布，如 `0.2.2-rc.5`）的 cordis 直连模式，以及 dsh-std Community v0.15 宿主
+**版本：`v0.4.7`**（当前） | 需要 `Node >= 22`；兼容 `dsh >= 0.1.1-rc.2 < 0.3.0`（含 `0.2.x` 预发布，如 `0.2.2-rc.5`）的 cordis 直连模式，以及 dsh-std Community v0.15 宿主
 
 DeepSeek Harness 插件 —— AI 修改 PDF 文字，自动保持原版式不变。
 
@@ -36,13 +34,13 @@ DeepSeek Harness 插件 —— AI 修改 PDF 文字，自动保持原版式不�
 
 ```bash
 # 通过 Harness 插件 CLI（与官方插件一致）
-dsh plugin --profile web add dsh-pdf-edit@latest
+dsh plugin --profile web add @geeklzk/dsh-pdf-edit@latest
 
 # 或直接通过 npm
-npm install dsh-pdf-edit
+npm install @geeklzk/dsh-pdf-edit
 ```
 
-> 当前版本：`v0.4.6`。主要更新：**兼容 dsh 0.2.x 运行时**（`engines.dsh: ">=0.1.1-rc.2 <0.3.0"`，peer 同步放开），不再被 dsh 的精确版本校验判为 `incompatible-version`。v0.4.5：彩色背景不再留白块（native 直绘按内容流采样实际背景色作补丁底色）、tid 合并阈值自适应排版密度、大文档内存 LRU 淘汰、字体解析结果缓存提速批量编辑。v0.4.3：`parsePatchObject` 按 JSON 解析错误位置截断，彻底处理模型尾部任意说明文字。
+> 当前版本：`v0.4.7`。主要更新：**包名迁移到 `@geeklzk/dsh-pdf-edit`**（附带仓库/清单/文档链接指向本 fork），行为与 v0.4.6 一致。v0.4.6：兼容 dsh 0.2.x 运行时（`engines.dsh: ">=0.1.1-rc.2 <0.3.0"`，peer 同步放开），不再被 dsh 的精确版本校验判为 `incompatible-version`。v0.4.5：彩色背景不再留白块（native 直绘按内容流采样实际背景色作补丁底色）、tid 合并阈值自适应排版密度、大文档内存 LRU 淘汰、字体解析结果缓存提速批量编辑。v0.4.3：`parsePatchObject` 按 JSON 解析错误位置截断，彻底处理模型尾部任意说明文字。
 
 ## dsh-std 标准生态适配（v0.4.0 新增）
 
@@ -58,7 +56,7 @@ npm install dsh-pdf-edit
 ```bash
 # 标准生态宿主内安装（adapter 会扫描 profile 依赖中的 dsh-plugin.json）
 dsh plugin --profile web add @dsh-std/adapter-dsh
-dsh plugin --profile web add dsh-pdf-edit
+dsh plugin --profile web add @geeklzk/dsh-pdf-edit
 ```
 
 ### std 宿主下的配置（环境变量）
@@ -79,7 +77,7 @@ std 协议没有 cordis config 注入，配置改从环境变量读取：
 ### 清单要点
 
 - `$schema: urn:dsh-std:community-draft:dsh-plugin:0.15`，`manifestVersion: 0.15`
-- 组件 ID：`io.github.whatsmore-nf.dsh-pdf-edit`
+- 组件 ID：`io.github.geeklzk.dsh-pdf-edit`
 - 5 个工具以 `contributes["x-tools"]` 声明为 `tools.dsh/v1alpha1 Tool` 扩展，activation 时逐一发布本地 `ToolHandler`
 - 不声明任何 required 契约与权限 → 与任意 std 宿主协商即兼容
 
@@ -239,6 +237,16 @@ const { bytes, insertedPages, totalPages } = await insertPages(
 ---
 
 ## 更新记录
+
+### v0.4.7
+
+包名迁移到 GEEKLZK 的 scope，行为与 v0.4.6 一致：
+
+- `name` 改为 `@geeklzk/dsh-pdf-edit`，并加 `publishConfig.access: "public"`（scoped 包默认 restricted，不加无法公开发布）
+- `cordis.patch.yml` 的插件行 `name` 同步改为 `@geeklzk/dsh-pdf-edit`（它必须与 package.json 的 name 完全一致，否则 profile 解析不到模块）
+- `dsh-plugin.json` 组件 ID 改为 `io.github.geeklzk.dsh-pdf-edit`（含 5 个工具的 `x-tools` id），`source.repository` 指向本 fork
+- `repository` / `homepage` / `bugs` 指向 `GEEKLZK/dsh-pdf-edit`；`author` 保留原作者 `whatsmore-nf`，新增 `contributors: ["GEEKLZK"]`
+- README 中英：顶部改为 fork 说明（上游已暂停维护），npm 徽标与安装命令同步新包名
 
 ### v0.4.6
 

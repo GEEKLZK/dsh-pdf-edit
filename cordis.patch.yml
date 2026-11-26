@@ -1,4 +1,4 @@
-# dsh-pdf-edit 的 cordis 补丁行（适配 dsh 0.1.1-rc.2 插件契约）。
+# dsh-pdf-edit 的 cordis 补丁行（适配 dsh 0.1.1-rc.2 ~ 0.2.x 插件契约）。
 # 如需自定义配置，把 config 块的注释解开并按需修改；键名见 DshPdfEditConfig。
 - insert:
     - id: pdf-edit

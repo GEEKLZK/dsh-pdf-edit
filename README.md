@@ -10,7 +10,7 @@
 
 > 🧩 **已接入 dsh-std 生态（Community v0.15）**：本插件随包提供 `dsh-plugin.json` 静态清单与标准 **FacetModule 入口**（`dist/std/host.js`），可被 `@dsh-std/adapter-dsh` 等 dsh-std 标准宿主直接装载，**不依赖任何 `@deepseek-ai/*` 官方包**；同时保留 cordis 直连入口。两条入口共用同一套工具实现，编辑行为完全一致。
 
-**版本：`v0.4.5`**（当前） | 需要 `Node >= 22`；兼容 `dsh >= 0.1.1-rc.2`（cordis 直连）与 dsh-std Community v0.15 宿主
+**版本：`v0.4.6`**（当前） | 需要 `Node >= 22`；兼容 `dsh >= 0.1.1-rc.2 < 0.3.0`（含 `0.2.x` 预发布，如 `0.2.2-rc.5`）的 cordis 直连模式，以及 dsh-std Community v0.15 宿主
 
 DeepSeek Harness 插件 —— AI 修改 PDF 文字，自动保持原版式不变。
 
@@ -42,7 +42,7 @@ dsh plugin --profile web add dsh-pdf-edit@latest
 npm install dsh-pdf-edit
 ```
 
-> 当前版本：`v0.4.5`（2026-08-25 发布）。主要更新：**彩色背景不再留白块**（native 直绘按内容流采样实际背景色作补丁底色）、tid 合并阈值自适应排版密度、大文档内存 LRU 淘汰、字体解析结果缓存提速批量编辑。v0.4.3：`parsePatchObject` 按 JSON 解析错误位置截断，彻底处理模型尾部任意说明文字。
+> 当前版本：`v0.4.6`。主要更新：**兼容 dsh 0.2.x 运行时**（`engines.dsh: ">=0.1.1-rc.2 <0.3.0"`，peer 同步放开），不再被 dsh 的精确版本校验判为 `incompatible-version`。v0.4.5：彩色背景不再留白块（native 直绘按内容流采样实际背景色作补丁底色）、tid 合并阈值自适应排版密度、大文档内存 LRU 淘汰、字体解析结果缓存提速批量编辑。v0.4.3：`parsePatchObject` 按 JSON 解析错误位置截断，彻底处理模型尾部任意说明文字。
 
 ## dsh-std 标准生态适配（v0.4.0 新增）
 
@@ -85,7 +85,7 @@ std 协议没有 cordis config 注入，配置改从环境变量读取：
 
 ### 遇到 "Cannot read properties of undefined (reading 'prepare')"？
 
-这是 dsh 宿主 rc 阶段的已知问题：当 `@deepseek-ai/dsh-tools` 在进程内被加载多份时，工具调度器 Symbol 失配。本插件从 v0.1.7 起通过 peerDependencies（精确版本钉死 `0.1.1-rc.2`）从源头规避；但若曾在 profile 目录下手动执行过 `pnpm install`，残留副本仍可能触发。
+这是 dsh 宿主 rc 阶段的已知问题：当 `@deepseek-ai/dsh-tools` 在进程内被加载多份时，工具调度器 Symbol 失配。本插件从 v0.1.7 起把 `@deepseek-ai/dsh-tools` 声明为 **optional peerDependencies**（v0.4.6 起为区间 `>=0.1.1-rc.2 <0.3.0`），避免 pnpm 在 profile 里物化出第二份副本；但若曾在 profile 目录下手动执行过 `pnpm install`，残留副本仍可能触发。
 
 按以下顺序排查：
 
@@ -239,6 +239,16 @@ const { bytes, insertedPages, totalPages } = await insertPages(
 ---
 
 ## 更新记录
+
+### v0.4.6
+
+适配 dsh 0.2.x（验证于 `0.2.2-rc.5`）——修复 `incompatible-version`：
+
+- **新增 `engines.dsh: ">=0.1.1-rc.2 <0.3.0"`**：dsh 的兼容性判定（`dsh-app-boot` 的 `plugin-compatibility`）在存在 `engines.dsh` 时只认它、忽略 peer；此前没有该字段，判定退回到 `peerDependencies` 里被钉死的 `0.1.1-rc.2`，于是每次 dsh 升级（0.2.1 → 0.2.2）都会被判 `incompatible-version`，插件被 profile 启动阶段静默拒绝，5 个工具全部不注册
+- **`@deepseek-ai/dsh-tools` peer 改为同一区间**：不再是精确钉版，`0.1.1-rc.2` 与 `0.2.x` 预发布都满足（dsh 判定用 `semver.satisfies(..., { includePrerelease: true })`）；仍保持 optional peer，不改变"不物化第二份副本"的既有约束
+- **devDependency 升到 `0.2.2-rc.5`**：编译与测试改为对着当前运行时 API 做
+- **新增 `test/unit/manifest-compat.test.ts`**：用与 dsh 相同的 semver 口径断言区间接受受支持的运行时、拒绝 `0.1.0`/`0.3.0`，并校验 `dsh-plugin.json` 版本与 5 个工具清单同步——防止下次再被钉死
+- `dsh-plugin.json` 的 `version` 从 `0.4.0` 补正为与 package.json 一致
 
 ### v0.4.5
 

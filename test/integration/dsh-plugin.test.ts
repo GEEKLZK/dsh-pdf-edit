@@ -40,7 +40,7 @@ function makeFakeCtx() {
   return { ctx, registered };
 }
 
-describe("dsh 插件契约（dsh 0.1.1-rc.2）", () => {
+describe("dsh 插件契约（dsh 0.1.1-rc.2 ~ 0.2.x）", () => {
   let root: string;
   let pdfPath: string;
   const captured: Array<{ role: string; content: string }> = [];
@@ -72,7 +72,7 @@ describe("dsh 插件契约（dsh 0.1.1-rc.2）", () => {
     expect(inject).toContain("tools");
   });
 
-  it("apply 向 ctx.tools 注册 4 个工具，均带 output.schema/render", async () => {
+  it("apply 向 ctx.tools 注册 5 个工具，均带 output.schema/render", async () => {
     const { ctx, registered } = makeFakeCtx();
     await apply(ctx as any);
     for (const n of [
@@ -80,6 +80,7 @@ describe("dsh 插件契约（dsh 0.1.1-rc.2）", () => {
       "pdf-edit-page",
       "pdf-edit-document",
       "pdf-edit-relayout",
+      "pdf-edit-insert",
     ]) {
       const t = registered.get(n);
       expect(t, `${n} 未注册`).toBeTruthy();

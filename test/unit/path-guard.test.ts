@@ -117,6 +117,9 @@ describe("path-guard（安全审查 #1：任意文件读写）", () => {
       validateOutputPath(`${root}/x\u0001.pdf`, pdfPath, opts()),
     ).toThrow(/非法控制字符/);
 
+    // POSIX 权限位在 Windows 上不生效（mode 0o555 仍可写），只在该语义存在的平台校验
+    if (process.platform === "win32") return;
+
     const readonlyDir = join(root, "readonly");
     mkdirSync(readonlyDir, { mode: 0o555 });
     try {
@@ -155,15 +158,16 @@ describe("path-guard/withExtraRoots + 报错信息（v0.3.1）", () => {
   });
 
   it("按调用传 extra roots 可放行工作目录外的文件（工具层兜底）", () => {
-    // 在 /tmp 建一个文件，配置根为 /home 不允许，但 extraRoots 加 /tmp 后放行
-    const f = join("/tmp", `guard-extra-${process.pid}.pdf`);
+    // 在系统临时目录建文件；配置根指向另一个不相关目录，故默认被拒
+    const outsideRoot = join(tmpdir(), `guard-home-${process.pid}`);
+    const f = join(tmpdir(), `guard-extra-${process.pid}.pdf`);
     writeFileSync(f, "%PDF-1.4\n%EOF");
     try {
       expect(() =>
-        validateInputPath(f, { allowedRoots: ["/home"] }),
+        validateInputPath(f, { allowedRoots: [outsideRoot] }),
       ).toThrow(/不在允许的目录范围内/);
       const ok = validateInputPath(f, {
-        allowedRoots: withExtraRoots(["/home"], ["/tmp"]),
+        allowedRoots: withExtraRoots([outsideRoot], [tmpdir()]),
       });
       expect(ok).toBe(realpathSync(f));
     } finally {

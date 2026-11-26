@@ -3,7 +3,7 @@
   "manifestVersion": "0.15",
   "id": "io.github.whatsmore-nf.dsh-pdf-edit",
   "name": "dsh-pdf-edit",
-  "version": "0.4.0",
+  "version": "0.4.6",
   "facets": {
     "host": {
       "entry": "dist/std/host.js",

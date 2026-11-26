@@ -40,10 +40,21 @@ describe("guard/assertSingleDshTools（双副本诊断）", () => {
     );
   });
 
-  it("描述不匹配的无关 symbol 不算命中", () => {
+  it("0.2.x 形态：没有 scheduler symbol，只有可用的 register() → 通过", () => {
+    // dsh 0.2.x 起 dsh-tools 不再挂 scheduler Symbol，健康实例也不会有该 Symbol
+    expect(() =>
+      assertSingleDshTools({ tools: { register() {} } }),
+    ).not.toThrow();
+  });
+
+  it("描述不匹配的无关 symbol 不会被误判（0.2.x 仍通过）", () => {
     const sym = Symbol("some.other.symbol");
     const decoy = Object.assign({ register() {} }, { [sym]: {} });
-    expect(() => assertSingleDshTools({ tools: decoy })).toThrow(/调度器/);
+    expect(() => assertSingleDshTools({ tools: decoy })).not.toThrow();
+  });
+
+  it("没有 register() → 抛错（注册表不可用）", () => {
+    expect(() => assertSingleDshTools({ tools: {} })).toThrow(/register/);
   });
 
   it("错误信息包含三条修复命令与 profile 占位符", () => {

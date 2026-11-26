@@ -31,7 +31,7 @@ An AI-powered PDF editing plugin. Tell it what to change in natural language, an
 
 ## Install
 
-> Node `>= 22`. Compatible with dsh `0.1.1-rc.2` (cordis-direct) and dsh-std Community v0.15 hosts.
+> Node `>= 22`. Compatible with dsh `>= 0.1.1-rc.2 < 0.3.0` (cordis-direct, including `0.2.x` prereleases such as `0.2.2-rc.5`) and dsh-std Community v0.15 hosts.
 
 ```bash
 # Via Harness plugin CLI (same as official plugins)
@@ -91,6 +91,16 @@ containing these exact recovery commands instead of crashing silently.
 
 ## Changelog
 
+### v0.4.6
+
+Support dsh 0.2.x (verified on `0.2.2-rc.5`); fixes the `incompatible-version` rejection:
+
+- **Adds `engines.dsh: ">=0.1.1-rc.2 <0.3.0"`**: dsh's compatibility gate (`plugin-compatibility` in `dsh-app-boot`) reads `engines.dsh` alone when present and ignores peers. Without that field the gate fell back to the exact `0.1.1-rc.2` peer pin, so every dsh upgrade (0.2.1 → 0.2.2) reported `incompatible-version`, the profile refused to load the bundle, and none of the 5 tools were registered
+- **`@deepseek-ai/dsh-tools` peer widened to the same range**: `0.1.1-rc.2` and `0.2.x` prereleases both satisfy it (dsh evaluates with `semver.satisfies(..., { includePrerelease: true })`); still an optional peer, so the "never materialize a second copy" constraint is unchanged
+- **devDependency bumped to `0.2.2-rc.5`**: the build and tests now compile against the current runtime API
+- **New `test/unit/manifest-compat.test.ts`**: asserts the range accepts every supported runtime and rejects `0.1.0`/`0.3.0` using dsh's own semver semantics, and keeps `dsh-plugin.json` version and the 5-tool list in sync
+- `dsh-plugin.json` `version` corrected from `0.4.0` to match package.json
+
 ### v0.4.0
 
 - **dsh-std Community v0.15 adaptation**: static `dsh-plugin.json` manifest at the package root + standard FacetModule entry (`src/std/host.ts` → `dist/std/host.js`). Under std hosts (e.g. `@dsh-std/adapter-dsh`), the 5 tools are published as `tools.dsh/v1alpha1 Tool` extensions with local `ToolHandler`s; lifecycle/cleanup follow the standard activation scope
@@ -115,7 +125,7 @@ containing these exact recovery commands instead of crashing silently.
 
 ### v0.1.7
 
-- Dependency restructure: `@deepseek-ai/dsh-tools` moved from dependencies into peerDependencies, pinned exactly to `0.1.1-rc.2`, preventing pnpm from materializing a second copy inside profiles (dual copies break the tool-scheduler Symbol and crash every tool)
+- Dependency restructure: `@deepseek-ai/dsh-tools` moved from dependencies into optional peerDependencies, preventing pnpm from materializing a second copy inside profiles (dual copies break the tool-scheduler Symbol and crash every tool). Since v0.4.6 the peer is the range `>=0.1.1-rc.2 <0.3.0` rather than an exact pin
 - Load-time guard: `apply()` probes for the scheduler before touching `ctx.tools`; on failure it throws a clear error with recovery commands instead of crashing silently
 - README install section now documents the "Cannot read properties of undefined (reading 'prepare')" troubleshooting flow; engines field declares Node >= 22
 

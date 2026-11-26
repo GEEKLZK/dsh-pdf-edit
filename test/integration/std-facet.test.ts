@@ -55,7 +55,11 @@ describe("dsh-std Community v0.15 适配（dsh-plugin.json + FacetModule）", ()
     const requires = manifest.requires as Record<string, unknown>;
 
     expect(manifest.manifestVersion).toBe("0.15");
-    expect(manifest.version).toBe("0.4.0");
+    // 版本必须与 package.json 同步，避免清单落后于实际发布（v0.4.0~v0.4.5 曾长期不一致）
+    const pkg = JSON.parse(
+      readFileSync(join(import.meta.dirname, "..", "..", "package.json"), "utf8"),
+    ) as Record<string, unknown>;
+    expect(manifest.version).toBe(pkg.version);
     expect(typeof manifest.$schema).toBe("string");
     expect(() => new URL(manifest.$schema as string)).not.toThrow(); // $schema 必须是绝对 URI
     expect(id).toMatch(/^[a-z][a-z0-9]*(?:[.-][a-z0-9][a-z0-9-]*)+$/);

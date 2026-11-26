@@ -1,6 +1,6 @@
 {
   "name": "dsh-pdf-edit",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Style-locked PDF editor plugin for DeepSeek Harness — AI edits text, native renderer preserves layout (ships dsh-std Community v0.15 manifest + legacy dsh entry)",
   "type": "module",
   "main": "dist/index.js",
@@ -61,13 +61,14 @@
     "puppeteer-core": "^23.0.0"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-tools": "0.1.1-rc.2",
+    "@deepseek-ai/dsh-tools": "0.2.2-rc.5",
     "@types/node": "^20.19.43",
+    "semver": "^7.6.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-tools": "0.1.1-rc.2",
+    "@deepseek-ai/dsh-tools": ">=0.1.1-rc.2 <0.3.0",
     "pdfjs-dist": "^4.0.0"
   },
   "peerDependenciesMeta": {
@@ -79,6 +80,7 @@
     }
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "dsh": ">=0.1.1-rc.2 <0.3.0"
   }
 }
